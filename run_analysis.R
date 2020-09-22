@@ -93,7 +93,7 @@ for(i in  1:length(new_variables)){
   new_variables[i] <- paste(as.character(i),new_variables[i],sep=" ")
 }
 str(new_variables)
-file.create("./codebook.txt")
-lapply(new_variables, write, "./codebook.txt", append=T)
+file.create("./codebook.md")
+lapply(new_variables, write, "./codebook.md", append=T)
 
 
