@@ -1,8 +1,6 @@
 #Joan Camilo Mina Trujillo, Course Project, Getting and Cleaning Data
 #Johns Hopkins University, Data Science Specialization
 
-
-
 #Point 1 Load and merge train and test datasets
 x_training_set_url <- 
   "./data/UCI HAR Dataset/train/X_train.txt"
@@ -83,9 +81,19 @@ summary(X_mean_std_data$activity)
 #Groups data by activity and subject
 by_activity_subject <- group_by_at(X_mean_std_data, vars("activity","subject"))
 str(by_activity_subject)
-#Calculates The Avg of each feature using the groups created in prev line
+#Calculates The mean of each feature using the groups created in prev line
 mean_by_activity_subject <- 
   summarise_at(by_activity_subject,variables_names$varname[mean_std_variables], 
                mean, na.rm=TRUE)
-
 head(mean_by_activity_subject)
+
+#Writes new variables to a codebook file
+new_variables <- names(mean_by_activity_subject)
+for(i in  1:length(new_variables)){
+  new_variables[i] <- paste(as.character(i),new_variables[i],sep=" ")
+}
+str(new_variables)
+file.create("./codebook.txt")
+lapply(new_variables, write, "./codebook.txt", append=T)
+
+
