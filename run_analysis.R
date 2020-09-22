@@ -94,6 +94,6 @@ for(i in  1:length(new_variables)){
 }
 str(new_variables)
 file.create("./codebook.txt")
-lapply(new_variables, write, "./codebook.txt", append=T)
+lapply(new_variables, write, "./codebook.txt", ncolumns=1, append=T)
 
 
