@@ -2,9 +2,6 @@
 title: "Human Activity Recognition Data preparation"
 author: "Joan Camilo Mina"
 date: "23-09-2020"
-output:
-  html_document: 
-    keep_md: yes
 ---
 # humanActivityRecognitionCourseProject
 
