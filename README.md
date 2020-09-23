@@ -2,6 +2,7 @@
 title: "Human Activity Recognition Data preparation"
 author: "Joan Camilo Mina"
 date: "23-09-2020"
+output: pdf_document
 ---
 # humanActivityRecognitionCourseProject
 
@@ -94,4 +95,31 @@ In this part of the process was necessary to implement the following actions:
 dataframe named **by_activity_subject**
 4. Calculate the mean of each variable using the **summarise_at** function, having in mind the indexes 
 vector previously used wich has the variables of interest **mean_std_variables**
+
+### Loading subject data and combining X_mean_std_data with subject and activity data
+```{r}
+library(dplyr)
+
+train_subject <- read.csv(train_subject_url,header=FALSE)
+test_subject <- read.csv(test_subject_url,header=FALSE)
+full_subject <- rbind(train_subject,test_subject)
+
+#Binds subject data to X_mean_std_data and sets a name for the new column
+X_mean_std_data <- cbind(X_mean_std_data, full_subject)
+names(X_mean_std_data)[names(X_mean_std_data)=="V1"]<-"subject" 
+
+#Binds activity data to X_mean_std_data and sets a name for the new column
+X_mean_std_data <- cbind(X_mean_std_data, full_y_data)
+names(X_mean_std_data)[names(X_mean_std_data)=="full_y_data"]<-"activity"
+```
+### Grouping by activity and subject and calculating the mean for every variable
+```{r}
+#Groups data by activity and subject
+by_activity_subject <- group_by_at(X_mean_std_data, vars("activity","subject"))
+
+#Calculates The mean of each feature using the groups created in prev line
+mean_by_activity_subject <- 
+  summarise_at(by_activity_subject,variables_names$varname[mean_std_variables], 
+               mean, na.rm=TRUE)
+```
 
